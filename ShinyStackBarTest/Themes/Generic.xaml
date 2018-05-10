@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ShinyStackBarTest">
+
+    <Style TargetType="{x:Type local:StackBarControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+            <ControlTemplate TargetType="{x:Type local:StackBarControl}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <DockPanel LastChildFill="True">
+                            <WrapPanel Name="LegendWrapPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" >
+                                <TextBlock Padding="15" Text="Legend Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding LegendBackground}"></TextBlock>
+                                <TextBlock Padding="10" Margin="5,5,5,5" Text="Legend Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Green"></TextBlock>
+                            </WrapPanel>
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <DockPanel Name="StackBarItemsDockPanel">
+                                    <ItemsControl>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DockPanel>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:StackBarItemControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StackBarItemControl}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <DockPanel>
+                            <Label DockPanel.Dock="Left"></Label>
+                            <Label DockPanel.Dock="Right"></Label>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
