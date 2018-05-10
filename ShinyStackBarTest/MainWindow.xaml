@@ -6,9 +6,20 @@
         xmlns:local="clr-namespace:ShinyStackBarTest"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <!--<Style  TargetType="{x:Type local:StackBarItemControl}">
+            <Setter Property="BarItemsSource" Value="{Binding Rooms}" />
+            </Style>-->
+    </Window.Resources>
     <Grid>
-        <local:StackBarControl Background="DimGray" LegendBackground="AliceBlue">
-
+        <local:StackBarControl Background="DimGray" 
+                               StackItemsSource="{Binding Floors}"
+                               ChildrenFieldName="Rooms"
+                               ValueFieldName="Area" 
+                               TextFieldName="Name"
+                               Legend="{Binding LegendDictionary}"
+                               BarLabelFieldName="Name">
         </local:StackBarControl>
+        
     </Grid>
 </Window>

@@ -1,0 +1,29 @@
+ public class AssumptionGridColumn : GridColumn
+    {
+        public AssumptionTypeEnum AssumptionType { get; set; }
+        public Binding AssumptionsProviderBinding { get; set; }
+        public IValueConverter DisplayValueConverter { get; set; }
+        public bool AllowInputTimeSeries { get; set; }
+        public bool AllowTimeSeriesTotalRow { get; set; }
+        public bool ShowInterval { get; set; } = true;
+        public SpgrUtils.NumberFormat TimeSeriesNumberFormat { get; set; }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+           
+            if (AssumptionType == AssumptionTypeEnum.None)
+                throw new Exception(nameof(AssumptionType) + " property is required");
+            
+                if (AssumptionsProviderBinding != null)
+                {
+                    var b = new Binding($"{AssumptionsProviderBinding.Path.Path}.{AssumptionType}")
+                    {
+                        Mode = BindingMode.TwoWay,
+                        Converter = DisplayValueConverter ?? new AssumptionValueConverter()
+                    };
+                    Binding = b;
+                }
+         
+            base.OnInitialized(e);
+        }
+    }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ShinyStackBarTest
 {
@@ -28,7 +29,15 @@ namespace ShinyStackBarTest
                 }
                 _floors.Add(floor);
             }
+
+            LegendDictionary = new Dictionary<string, Color>();
+            LegendDictionary.Add("test", Colors.Red);
+            LegendDictionary.Add("test2", Colors.Blue);
+            LegendDictionary.Add("test3", Colors.Green);
+
         }
+
+        public Dictionary<string, Color> LegendDictionary { get; set; }
 
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors { get { return _floors; } }

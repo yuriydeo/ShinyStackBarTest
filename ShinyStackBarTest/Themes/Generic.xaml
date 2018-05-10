@@ -5,25 +5,58 @@
     <Style TargetType="{x:Type local:StackBarControl}">
         <Setter Property="Template">
             <Setter.Value>
-            <ControlTemplate TargetType="{x:Type local:StackBarControl}">
+                <ControlTemplate TargetType="{x:Type local:StackBarControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <DockPanel LastChildFill="True">
-                            <WrapPanel Name="LegendWrapPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" >
-                                <TextBlock Padding="15" Text="Legend Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding LegendBackground}"></TextBlock>
-                                <TextBlock Padding="10" Margin="5,5,5,5" Text="Legend Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Green"></TextBlock>
-                            </WrapPanel>
+                            <ListBox Name="Legend" 
+                                     DockPanel.Dock="Bottom"
+                                     HorizontalAlignment="Center"
+                                     ItemsSource="{Binding Legend, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" 
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Height="20" Width="30" Margin="5">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding Value}" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <Label  VerticalAlignment="Center" Content="{Binding Key}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel IsItemsHost="True" Orientation="Horizontal"  />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
                             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                <DockPanel Name="StackBarItemsDockPanel">
-                                    <ItemsControl>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
 
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DockPanel>
+                                <ListBox Name="StackBars"
+                                    ItemsSource="{Binding StackItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock>Placeholder</TextBlock>
+                                                <local:StackBarItemControl DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" MaxHeight ="50" Height="50"
+                                                                           />
+                                                <!--
+                                                ItemsSourcePath="{Binding ChildrenFieldName, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                ItemLabel="{Binding BarLabelFieldName, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                BarItemsSource="{Binding StackItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                -->
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <DockPanel LastChildFill="False"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
                             </ScrollViewer>
                         </DockPanel>
                     </Border>
@@ -33,15 +66,34 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarItemControl}">
+        <!--<Setter Property="ItemLabel" 
+                Value="{Binding Path=ValueFieldName, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"></Setter>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <DockPanel>
-                            <Label DockPanel.Dock="Left"></Label>
-                            <Label DockPanel.Dock="Right"></Label>
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Height="50">
+                        <DockPanel MaxHeight="{TemplateBinding MaxHeight}" LastChildFill="False">
+                            <Rectangle DockPanel.Dock="Left" Fill="Aqua" MinHeight="40" MinWidth="100" HorizontalAlignment="Stretch" Margin="5"></Rectangle>
+                            <Label DockPanel.Dock="Left" Content="{Binding ItemLabel, RelativeSource={RelativeSource AncestorType=local:StackBarItemControl}}"/>
+                            <ListBox Name="StackBars"
+                                     ItemsSource="{Binding BarItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarItemControl}}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Rectangle Fill="Red"/>
+                                            <TextBlock xml:space="preserve" Text="{Binding BarLabel, RelativeSource={RelativeSource AncestorType=local:StackBarItemControl}}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Height="50"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
                         </DockPanel>
                     </Border>
                 </ControlTemplate>
